@@ -1,0 +1,72 @@
+/* ============================ */
+/* Domain1 (Inbox) Styles */
+/* ============================ */
+body {
+  font-family: Arial, sans-serif;
+  background-color: #f4f4f9;
+  margin: 0;
+  padding: 20px;
+}
+
+.app-container {
+  display: flex;
+  justify-content: center;
+  gap: 30px;
+  padding: 20px;
+}
+
+.inbox-container {
+  flex: 1;
+  max-width: 600px;
+  padding: 20px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.email-list {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background: #ffffff;
+}
+
+.email-item {
+  padding: 15px;
+  margin: 5px 0;
+  background-color: #f5f5f5;
+  cursor: grab;
+  border-radius: 5px;
+  transition: background-color 0.2s, transform 0.1s;
+}
+
+.email-item:hover {
+  background-color: #e0e0e0;
+  transform: scale(1.02);
+}
+
+/* ✅ Ensure the iframe has NO borders */
+.iframe-sidebar {
+  border: none !important;
+  outline: none !important;
+  /* Removes any possible outlines */
+  margin: 0;
+  padding: 0;
+  display: block;
+  /* Ensures it takes full width */
+}
+
+/* ✅ Ensure the wrapper does not introduce a border */
+.drop-container {
+  border: none !important;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+  /* Prevents any extra spacing */
+}
+
+/* ✅ Remove potential box shadows */
+iframe {
+  box-shadow: none !important;
+  border: none !important;
+}

@@ -54,7 +54,7 @@ const Sidebar = () => {
             onDrop={(e) => {
               e.preventDefault();
               setHighlightedFolder(null);
-              window.parent.postMessage({ type: "DROP_EVENT", folderId: folder.id }, "https://4e4131a4c751.ngrok.app/");
+              window.parent.postMessage({ type: "DROP_EVENT", folderId: folder.id }, "https://dad95b9a9871.ngrok.app/");
             }}
           >
             {folder.name}

@@ -19,20 +19,33 @@ const MainApp = () => {
     event.dataTransfer.setData("text/plain", emailId);
     event.dataTransfer.effectAllowed = "copyMove";
     setDragging(true);
-
-    // ✅ Notify iframe (Domain2 - `3000`) about drag start
-    if (iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage({ type: "DRAG_START" }, "https://b4eaa412d6b3.ngrok.app");
-    }
   };
 
   const handleDragEnd = () => {
     setDragging(false);
     setDropHighlight(false);
 
-    // ✅ Notify iframe (Domain2) about drag end
+    // ✅ Notify iframe (Domain 2) about drag end
     if (iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage({ type: "DRAG_END" }, "https://b4eaa412d6b3.ngrok.app/");
+      iframeRef.current.contentWindow.postMessage({ type: "DRAG_END" }, "*");
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent) => {
+    event.preventDefault(); // ✅ Required to allow drop
+    setDropHighlight(true);
+
+    const dragData = {
+      type: "DRAG_OVER",
+      position: {
+        x: event.clientX,
+        y: event.clientY,
+      },
+    };
+
+    // ✅ Send updated drag position to iframe only when hovering over the wrapper
+    if (iframeRef.current?.contentWindow) {
+      iframeRef.current.contentWindow.postMessage(dragData, "*");
     }
   };
 
@@ -42,9 +55,10 @@ const MainApp = () => {
     setDropHighlight(false);
 
     const data = event.dataTransfer.getData("text/plain");
-    // ✅ Send drop event to the iframe (Domain2)
+
+    // ✅ Send drop event to the iframe (Domain 2)
     if (iframeRef.current?.contentWindow) {
-      iframeRef.current.contentWindow.postMessage({ type: "DROP_EVENT", data }, "https://b4eaa412d6b3.ngrok.app/");
+      iframeRef.current.contentWindow.postMessage({ type: "DROP_EVENT", data }, "*");
     }
   };
 
@@ -70,22 +84,20 @@ const MainApp = () => {
         </div>
       </div>
 
-      {/* ✅ Drop Area for Sidebar */}
+      {/* ✅ Drop Area for Sidebar (Triggers Drag Position Update) */}
       <div
         className={`drop-container ${dropHighlight ? "highlight-border" : ""}`}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setDropHighlight(true);
-        }}
+        onDragOver={handleDragOver} // ✅ Now sending position ONLY when hovering over wrapper
         onDragLeave={() => setDropHighlight(false)}
         onDrop={handleDrop}
       >
         <iframe
           ref={iframeRef}
-          src="https://b4eaa412d6b3.ngrok.app/"
+          src="https://daa974208efb.ngrok.app/"
           width="100%"
           height="100%"
           style={{ pointerEvents: isDragging ? "none" : "all" }}
+          title="Drag and Drop Iframe"
         />
       </div>
     </div>
